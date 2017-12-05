@@ -44,7 +44,7 @@ public class Subscription {
 	// Replace myName with the proper username and myKey with the API key
 	// Get your free Trumpia API Key at http://api.trumpia.com
 	// Replace with the list_name the subscription will be added to
-	private String apiKey = "mykey";
+	private String apiKey = "myKey";
 	private String userName = "myName";
 	private String listName = "MyContacts";
 	
@@ -63,7 +63,6 @@ public class Subscription {
 		String mobileNum = request.getParameter("mobileNumber");
 		
 		requestRest = new RequestRest();
-		
 		// Mobile number search.
 		// If the subscription exists, it will grab the existing subscription_id and edit the subscription with (POST).
 		// If the subscription does not exist, it will add it as a new record.
@@ -90,10 +89,9 @@ public class Subscription {
 		return false;
 	}
 	
-	// This function will edit a subscription
+	// This function will edit a subscription.
 	private void postSubscription(String firstName, String lastName, String mobileNum) throws Exception {
 		String requestUrl = baseUrl+userName+"/subscription/"+subscriptionId;
-		System.out.println(requestUrl);
 		
 		JSONObject jsonBody = body(firstName, lastName, mobileNum);
 		
@@ -102,16 +100,15 @@ public class Subscription {
 		jsonBody.getJSONArray("subscriptions").getJSONObject(0).getJSONObject("mobile").remove("number");
 		
 		String requestBody = jsonBody.toString();
-		System.out.println(requestBody);
 		requestRest.setRequestUrl(requestUrl);
 		requestRest.setRequestBody(requestBody);
 		JSONObject response = new JSONObject(requestRest.post());
-		
+
 		// Get report from response.
 		getReport(response);
 	}
 	
-	// This function will add a new subscription
+	// This function will add a new subscription.
 	private void putSubscription(String firstName, String lastName, String mobileNum) throws Exception {
 		String requestUrl = baseUrl+userName+"/subscription";
 		
@@ -160,7 +157,6 @@ public class Subscription {
 			catch(JSONException e) {
 				report = new JSONObject(reportString.substring(1, reportString.length()-1));
 			}
-			System.out.println(report.toString());
 			if (report.has("subscription_id")) {
 				if (report.has("message"))
 					alert(report.getString("message"));
@@ -180,11 +176,12 @@ public class Subscription {
 			alert(response.toString());
 	}
 
-	// This function is to make alert message.
+	// This function is to make alert message and return to index page.
 	private void alert(String message) throws IOException {
 		HttpServletResponse response = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getResponse();
 		PrintWriter out = response.getWriter();
 		out.println("<script>alert('"+message+"');</script>");
+		out.println("<meta http-equiv=\"refresh\" content=\"0; url=/\">");
 		out.flush();
 		out.close();
 	}
