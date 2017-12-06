@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with The Sign-up Page Sample.  If not, see <http://www.gnu.org/licenses/>. */
 
-package src;
+package com.trumpia.signup.util;
 
 import java.io.IOException;
 
@@ -29,9 +29,6 @@ public class RequestRest {
 	private String requestUrl;
 	private String requestBody;
 	private String apiKey;
-	private String responseBody;
-	private String responseStatus;
-
 	public void setRequestUrl(String requestUrl) {
 		this.requestUrl = requestUrl;
 	}
@@ -41,15 +38,9 @@ public class RequestRest {
 	public void setApiKey(String apiKey) {
 		this.apiKey = apiKey;
 	}
-	public void setResponseBody(String responseBody) {
-		this.responseBody = responseBody;
-	}
-	public void setResponseStatus(String responseStatus) {
-		this.responseStatus = responseStatus;
-	}
 
-	OkHttpClient client = new OkHttpClient();
-	MediaType mediaType = MediaType.parse("application/json");
+	public static OkHttpClient client = new OkHttpClient();
+	public static final MediaType mediaType = MediaType.parse("application/json");
 	
 
 	public String get() throws IOException {
